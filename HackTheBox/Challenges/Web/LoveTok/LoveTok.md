@@ -3,23 +3,23 @@ _Description_: True love is tough, and even harder to find. Once the sun has set
 
 Launch the instance and download the file provided. A password will also be shown which will be useful to unzip the downloaded zip.
 On visiting the instance url, we are greeted with the following website.
-![[Screenshot 1.png]]
+![Screenshot 1.png]('./Screenshot%201.png)
 Lets start with checking the source code of the webpage.
 In the source code, we find two js files, main.js and koulis.js. We can also see that the timer counting down in the web page, is in a span tag with id as time. This might be useful later.
-![[Screenshot 2.png]]
+![Screenshot 2.png]('./Screenshot%201.png)
 Going through the js files we find,
   - main.js has the countdown logic which is seen on main page
   - koulis.js has a function for rendering a meme and some text on canvas. it says its not part of the challenge
 
 The js files were a deadend. However, in the source of web page, we find the button **Nahh doesn't work for me** which on clicking adds a parameter **format** to the URL.
-![[Screenshot 3.png]]
+![Screenshot 3.png]('./Screenshot%203.png)
 On clicking the button, we notice the count down time changes and the format parameter gets added to the URL.
 
 On changing the value of format parameter from r to a, we can see that the time printed shows **pm** (or it could show **am** depending on the time of the instance).
-![[Screenshot 4.png]]
+![Screenshot 4.png]('./Screenshot%204.png)
 This confirms that the value of format parameter is being used to format a random date and display it.
 This can be further confirmed by using **dmy** as value of format
-![[Screenshot 5.png]]
+![Screenshot 5.png]('./Screenshot%205.png)
 
 We also have the zip that we had downloaded. Upon unzipping it using the password provided, we are presented with a few files and folders.
 The flag file that we find is a deadend (this was obvious).
@@ -49,7 +49,7 @@ Lets try listing all the files in the current directory. We can use echo or prin
 In linux command line, we can wrap our commands in backticks (\`\`) and it will execute.
 So trying the same in php results in wrapping `ls` with backticks (\`\`) and then passing it to print.
 The payload will be ``${print(`ls`)}``. This will also bypass addslashes as we have no single or double quote in our payload. The URL will be ``http://<instance IP and Port>/?format=${print(`ls`)}``
-![[Screenshot 6.png]]
+![Screenshot 6.png]('./Screenshot%206.png)
 It worked. We can see the names of the folders and files matching those that we extracted from the zip.
 
 For finding the flag there are two techniques:
@@ -58,7 +58,7 @@ For finding the flag there are two techniques:
 
 _Technique 1 :_
 We know that the flag is in the root folder. So lets try listing all files in the root folder to find the name of the flag file. We will replace `ls` with `ls /` in the payload. The URL will be  ``http://<instance IP and Port>/?format=${print(`ls /`)}``
-![[Screenshot 7.png]]
+![Screenshot 7.png]('./Screenshot%207.png)
 The flag file is **flag2yGnq**. But it will be different every time the instance is run.
 For printing the flag, we can use the cat command. Change `ls /` to `cat /flag2yGnq` in the payload. And the flag will be printed. URL will be ``http://<instance IP and Port>/?format=${print(`cat /flag2yGnq`)}``
 
